@@ -4,9 +4,16 @@ import React from "react";
 import { useUser } from "../context/UserContext";
 import Link from "next/link";
 import { logoutUser } from "@/lib/api/auth";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 export default function Header() {
   const { user, setUser } = useUser();
+  const pathname = usePathname();
+
+  const linkClass = (href: string) => {
+    return clsx("hover:underline", pathname === href && "font-bold underline");
+  };
 
   async function handleLogout() {
     try {
@@ -19,7 +26,7 @@ export default function Header() {
 
   return (
     <header className="w-full px-6 py-4 bg-gray-100 flex justify-between items-center">
-      <Link href="/" className="text-xl font-semibold">
+      <Link href="/" className={`text-xl font-semibold ${linkClass("/")}`}>
         Home
       </Link>
 
@@ -27,12 +34,18 @@ export default function Header() {
         {user ? (
           <>
             <span className="text-gray-700">Welcome, {user.name}</span>
-            <button onClick={handleLogout} className="text-gray-700">Logout</button>
+            <button onClick={handleLogout} className="text-gray-700">
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <Link href="/login"  className="text-blue-600 hover:underline">Login</Link>
-            <Link href="/register" className="text-blue-600 hover:underline">Register</Link>
+            <Link href="/login" className={linkClass("/login")}>
+              Login
+            </Link>
+            <Link href="/register" className={linkClass("/register")}>
+              Register
+            </Link>
           </>
         )}
       </div>

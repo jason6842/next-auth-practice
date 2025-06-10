@@ -1,4 +1,6 @@
+import { getLoginToken } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
+import { verifyToken } from "@/util/token";
 import bcrypt from "bcrypt"
 
 // type User = {
@@ -50,3 +52,19 @@ export const verifyUser = async (email: string, password: string) => {
         email: user.email,
     };
 };
+
+export const getUserFromToken = async () => {
+    const token = await getLoginToken();
+
+    if (!token) return null;
+
+    const payload = verifyToken(token);
+    if (!payload) return null;
+
+    const user = await prisma.user.findUnique({
+        where: { id: payload.userId },
+        select: { id: true, name: true, email: true }
+    })
+
+    return user;
+}

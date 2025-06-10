@@ -22,6 +22,7 @@ function RegisterPage() {
 
     if (success === false) {
       console.error("Unable to register user.");
+      return;
     }
 
     console.log("Registration successful.");
