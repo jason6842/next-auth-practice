@@ -5,7 +5,7 @@ type RegisterUserRequest = {
 }
 
 export async function registerUser(formData: RegisterUserRequest) {
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
@@ -26,7 +26,7 @@ type LoginUserRequest = {
 }
 
 export async function loginUser(user: LoginUserRequest) {
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export async function loginUser(user: LoginUserRequest) {
 }
 
 export async function fetchUser(): Promise<{ name: string }> {
-    const res = await fetch("/api/me", {
+    const res = await fetch("/api/auth/me", {
         method: "GET",
         credentials: "include",
     });
@@ -53,7 +53,7 @@ export async function fetchUser(): Promise<{ name: string }> {
 }
 
 export async function logoutUser() {
-    const res = await fetch("/api/logout", {
+    const res = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include"
     })
