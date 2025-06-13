@@ -18,5 +18,31 @@ model User {
   name      String
   email     String    @unique
   password  String
+  posts     Post[]
+  comments  Comment[]
   createdAt DateTime   @default(now())
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([title, content])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }

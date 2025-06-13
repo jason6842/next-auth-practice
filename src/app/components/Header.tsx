@@ -33,6 +33,9 @@ export default function Header() {
       <div className="flex gap-4 items-center">
         {user ? (
           <>
+            <Link href="/profile" className={linkClass("/profile")}>
+              Profile
+            </Link>
             <span className="text-gray-700">Welcome, {user.name}</span>
             <button onClick={handleLogout} className="text-gray-700">
               Logout
