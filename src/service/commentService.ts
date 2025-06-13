@@ -26,3 +26,14 @@ export const removeCommentById = async (commentId: string) => {
         }
     })
 }
+
+export const updateCommentByIdDB = async (commentId: string, newComment: string) => {
+    return await prisma.comment.update({
+        where: {
+            id: commentId
+        },
+        data: {
+            content: newComment
+        }
+    })
+}

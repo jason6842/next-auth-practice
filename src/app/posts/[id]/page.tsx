@@ -1,8 +1,15 @@
 import CommentForm from "@/app/components/CommentForm";
 import CommentList from "@/app/components/CommentList";
-import { fetchPostById } from "@/service/postService";
+import { fetchAllPosts, fetchPostById } from "@/service/postService";
 import { formatDateTime } from "@/util/formatDate";
 import React from "react";
+
+export async function generateStaticParams() {
+  const posts = await fetchAllPosts();
+  return posts.map((post) => {
+    return { id: post.id };
+  });
+}
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -10,6 +17,7 @@ type Props = {
 
 async function PostDetailPage({ params }: Props) {
   // const params = useParams(); client component
+  console.log(await params);
   const { id } = await params;
 
   const post = await fetchPostById(id);
@@ -25,6 +33,7 @@ async function PostDetailPage({ params }: Props) {
   // Only display createdAt if it exists on post
   return (
     <div className="flex flex-col items-center gap-6">
+      Rendered at {new Date().toLocaleTimeString()}
       PostDetailPage
       <p>Title: {title}</p>
       <p>Content: {content}</p>

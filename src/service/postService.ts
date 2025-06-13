@@ -100,3 +100,15 @@ export const removePostById = async (postId: string) => {
         }
     })
 }
+
+export const updatePostByIdDB = async (postId: string, newPost: { title: string, content: string }) => {
+    return await prisma.post.update({
+        where: {
+            id: postId
+        },
+        data: {
+            ...newPost
+        }
+    })
+}
+

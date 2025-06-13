@@ -82,3 +82,39 @@ export async function deleteCommentById(commentId: string) {
 
     return { success: true }
 }
+
+export async function updateCommentById(commentId: string, newContent: string) {
+    try {
+        const res = await fetch(`/api/comments/${commentId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newContent)
+        })
+
+        if (!res.ok) {
+            throw new Error("Failed to update");
+        }
+
+        return { success: true }
+    } catch (error) {
+        console.error(error);
+        return { success: false }
+    }
+}
+
+export async function updatePostById(postId: string, newPost: { title: string, content: string }) {
+    try {
+        const res = await fetch(`/api/posts/${postId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newPost)
+        });
+
+        if (!res.ok) throw new Error("Failed to update");
+
+        return { success: true }
+    } catch (error) {
+        console.error(error);
+        return { success: false }
+    }
+}
